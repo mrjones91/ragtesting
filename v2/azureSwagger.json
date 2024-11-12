@@ -1,0 +1,270 @@
+{
+  openapi: "3.1.0",
+  info: {
+    title: "AzureML Foundation Model Inference Server",
+    summary: "A server for inferencing AzureML Foundation Models.",
+    version: "1.0.0"
+  },
+  paths: {
+    "/": {
+      get: {
+        summary: "Health",
+        description: "Check if server is healthy. Used by the readiness probe to check server is healthy.",
+        operationId: "health__get",
+        responses: { "200": [Object] }
+      }
+    },
+    "/score": {
+      post: {
+        summary: "Azure ML inferencing server: Score",
+        description: "Runs the predict function for the model deployment according to the Azure ML inferencing server specification: https://aka.ms/azureml-inference-server ",
+        requestBody: { content: [Object] },
+        responses: { "200": [Object] }
+      }
+    },
+    "/info": {
+      get: {
+        summary: "Info",
+        description: "Model Metadata.",
+        operationId: "info_info_get",
+        responses: { "200": [Object] }
+      }
+    }
+  },
+  components: {
+    schemas: {
+      ChatCompletionMessageToolCall: {
+        properties: { id: [Object], type: [Object], function: [Object] },
+        additionalProperties: true,
+        type: "object",
+        required: [ "function" ],
+        title: "ChatCompletionMessageToolCall"
+      },
+      ChatCompletionRequest: {
+        properties: {
+          model: [Object],
+          frequency_penalty: [Object],
+          presence_penalty: [Object],
+          seed: [Object],
+          temperature: [Object],
+          top_p: [Object],
+          max_tokens: [Object],
+          stop: [Object],
+          stream: [Object],
+          messages: [Object],
+          response_format: [Object],
+          tools: [Object],
+          tool_choice: [Object]
+        },
+        additionalProperties: true,
+        type: "object",
+        required: [ "messages" ],
+        title: "ChatCompletionRequest"
+      },
+      ChatCompletionResponse: {
+        properties: {
+          id: [Object],
+          object: [Object],
+          created: [Object],
+          model: [Object],
+          choices: [Object],
+          usage: [Object]
+        },
+        type: "object",
+        required: [ "id", "model", "choices", "usage" ],
+        title: "ChatCompletionResponse"
+      },
+      ChatCompletionResponseChoice: {
+        properties: { index: [Object], message: [Object], finish_reason: [Object] },
+        type: "object",
+        required: [ "index", "message" ],
+        title: "ChatCompletionResponseChoice"
+      },
+      ChatCompletionToolParam: {
+        properties: { type: [Object], function: [Object] },
+        type: "object",
+        title: "ChatCompletionToolParam"
+      },
+      "ChatMessage-Input": {
+        properties: { role: [Object], content: [Object], tool_calls: [Object] },
+        additionalProperties: true,
+        type: "object",
+        required: [ "role" ],
+        title: "ChatMessage"
+      },
+      "ChatMessage-Output": {
+        properties: { role: [Object], content: [Object], tool_calls: [Object] },
+        additionalProperties: true,
+        type: "object",
+        required: [ "role" ],
+        title: "ChatMessage"
+      },
+      ChatRole: {
+        type: "string",
+        enum: [ "system", "user", "assistant", "tool" ],
+        title: "ChatRole"
+      },
+      CompletionRequest: {
+        properties: {
+          model: [Object],
+          frequency_penalty: [Object],
+          presence_penalty: [Object],
+          seed: [Object],
+          temperature: [Object],
+          top_p: [Object],
+          max_tokens: [Object],
+          stop: [Object],
+          stream: [Object],
+          prompt: [Object]
+        },
+        additionalProperties: true,
+        type: "object",
+        required: [ "prompt" ],
+        title: "CompletionRequest"
+      },
+      CompletionResponse: {
+        properties: {
+          id: [Object],
+          object: [Object],
+          created: [Object],
+          model: [Object],
+          choices: [Object],
+          usage: [Object]
+        },
+        type: "object",
+        required: [ "model", "choices", "usage" ],
+        title: "CompletionResponse",
+        description: "An openai text generation response object."
+      },
+      CompletionResponseChoice: {
+        properties: {
+          index: [Object],
+          text: [Object],
+          logprobs: [Object],
+          finish_reason: [Object]
+        },
+        type: "object",
+        title: "CompletionResponseChoice",
+        description: "Class for one of the 'choices' in the openai api text generation response."
+      },
+      ContentImage: {
+        properties: { data: [Object], detail: [Object] },
+        additionalProperties: true,
+        type: "object",
+        required: [ "data" ],
+        title: "ContentImage"
+      },
+      ContentImageDetail: {
+        type: "string",
+        enum: [ "auto", "low", "high" ],
+        title: "ContentImageDetail"
+      },
+      ContentImageUrl: {
+        properties: { url: [Object], detail: [Object] },
+        additionalProperties: true,
+        type: "object",
+        required: [ "url" ],
+        title: "ContentImageUrl"
+      },
+      "ContentPart-Input": {
+        properties: {
+          type: [Object],
+          text: [Object],
+          image: [Object],
+          image_url: [Object]
+        },
+        additionalProperties: true,
+        type: "object",
+        required: [ "type" ],
+        title: "ContentPart"
+      },
+      "ContentPart-Output": {
+        properties: {
+          type: [Object],
+          text: [Object],
+          image: [Object],
+          image_url: [Object]
+        },
+        additionalProperties: true,
+        type: "object",
+        required: [ "type" ],
+        title: "ContentPart"
+      },
+      ContentPartType: {
+        type: "string",
+        enum: [ "text", "image", "image_url" ],
+        title: "ContentPartType"
+      },
+      FinishReason: {
+        type: "string",
+        enum: [
+          "stop",
+          "length",
+          "model_length",
+          "error",
+          "tool_calls",
+          "content_filter"
+        ],
+        title: "FinishReason"
+      },
+      Function: {
+        properties: { name: [Object], arguments: [Object], call_id: [Object] },
+        additionalProperties: true,
+        type: "object",
+        required: [ "name", "arguments" ],
+        title: "Function"
+      },
+      FunctionDefinition: {
+        properties: { name: [Object], description: [Object], parameters: [Object] },
+        additionalProperties: true,
+        type: "object",
+        required: [ "name", "description" ],
+        title: "FunctionDefinition"
+      },
+      HTTPValidationError: {
+        properties: { detail: [Object] },
+        type: "object",
+        title: "HTTPValidationError"
+      },
+      LogProbs: {
+        properties: {
+          text_offset: [Object],
+          token_logprobs: [Object],
+          tokens: [Object],
+          top_logprobs: [Object]
+        },
+        type: "object",
+        title: "LogProbs",
+        description: "Class that represents logprobs in the openai way."
+      },
+      ResponseFormat: {
+        properties: { type: [Object] },
+        type: "object",
+        required: [ "type" ],
+        title: "ResponseFormat"
+      },
+      ToolType: {
+        type: "string",
+        enum: [ "function" ],
+        const: "function",
+        title: "ToolType"
+      },
+      UsageInfo: {
+        properties: {
+          prompt_tokens: [Object],
+          total_tokens: [Object],
+          completion_tokens: [Object]
+        },
+        additionalProperties: true,
+        type: "object",
+        title: "UsageInfo"
+      },
+      ValidationError: {
+        properties: { loc: [Object], msg: [Object], type: [Object] },
+        type: "object",
+        required: [ "loc", "msg", "type" ],
+        title: "ValidationError"
+      }
+    }
+  }
+}
