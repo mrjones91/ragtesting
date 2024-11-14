@@ -1,0 +1,7 @@
+# use ollama docker image as base
+FROM ollama/ollama
+# pull llama3.2
+# install bun
+RUN ollama pull llama3.2
+RUN ollama
+RUN curl -fsSL https://bun.sh/install | bash
