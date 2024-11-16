@@ -11,9 +11,13 @@
   "dependencies": {
     "@llm-tools/embedjs": "^0.1.18",
     "@llm-tools/embedjs-hnswlib": "^0.1.18",
+    "@llm-tools/embedjs-loader-csv": "^0.1.18",
     "@llm-tools/embedjs-loader-pdf": "^0.1.18",
     "@llm-tools/embedjs-loader-web": "^0.1.18",
+    "@llm-tools/embedjs-mongodb": "^0.1.18",
     "@llm-tools/embedjs-ollama": "^0.1.18",
-    "express": "^4.21.1"
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "mongodb": "^6.10.0"
   }
 }
