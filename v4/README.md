@@ -2,10 +2,6 @@
 
 ## RAG API app
 
-mongoimport --uri=mongodb+srv://hack24:winners2024@cluster0.zep0qmk.mongodb.net/BlightBounties?retryWrites=true&w=majority&appName=Cluster0 --collection=blight --file=file_per_document/Service_Requests_since_2016_20241116.csv --type=csv
-
-BlightBounties.blight.aggregate([{$sort: { CREATION_DATE: -1 }}]).limit(20);
-
 JS app listening for endpoint connections
 Will optomize for load later
 Going to dockerize and have API listen for POST calls that will be input to the RAG app and output
